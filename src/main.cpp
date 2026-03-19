@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-Hand dealIn(Hand& h){
+void dealIn(Hand& h){
     
 	Card* a = new Card();
 	Card* b = new Card();
@@ -14,28 +14,28 @@ Hand dealIn(Hand& h){
 	
 	while(h.getSize() < 2){
 	  if(!b->isIn(h)){
-	    h.deal(*b);
-	    
-	  }
-	  else dealIn(h);
+			h.deal(*b);
+		}
+		else dealIn(h);
 	}
 	delete a;
 	delete b;
-	return h;
+	return;
 }
 
-void hit(Hand& a, Hand& b){
-	Card c; //this calls the no args version, also Card c{} coulda worked
-	if((!c.isIn(a)) && (!c.isIn(b))){
-		a.deal(c);
-	}else{
-		hit(a,b);
+void hit(Hand& a, const Hand& b){
+	while(true){
+		Card c;
+		if(!c.isIn(a) && !c.isIn(b)){
+			a.deal(c);
+			return;
+		}
 	}
 }
-bool isBusted(Hand& h){
+bool isBusted(const Hand& h){
 	return (h.getScore() > 21);
 }
-bool notBusted(Hand& player, Hand& dealer){
+bool notBusted(const Hand& player, const Hand& dealer){
 	return((!isBusted(player)) && (!isBusted(dealer))); 
 }
 int main(int argc, char* argv[]){
@@ -97,6 +97,7 @@ int main(int argc, char* argv[]){
 			cout << "YOUR HAND: " << playerhand->getHand() << " and SCORE: " << playerhand->getScore() << endl;
 			cout << "YOU WIN!" << endl;
 		}
-
+		delete playerhand;
+		delete dealerhand;
 	}
 }

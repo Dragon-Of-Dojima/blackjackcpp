@@ -11,7 +11,7 @@ class Hand{
 		std::string getHand() const;
 		int getSize() const;
 		void deal(const Card& c);
-		int getScore();
+		int getScore() const;
 		bool isEmpty() const;
 		const std::vector<Card>& getCards() const;
 };

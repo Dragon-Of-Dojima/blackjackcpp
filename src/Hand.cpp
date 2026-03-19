@@ -22,13 +22,13 @@ Hand::Hand() {
  void Hand::deal(const Card& c){
 	cardlist.push_back(c);
  }
- int Hand::getScore(){
+ int Hand::getScore() const{
 	if(isEmpty()){
 		return 0;
 	}else{
 		int sum = 0;
 		int aces = 0;
-		for(Card& c : cardlist){
+		for(const Card& c : cardlist){
 			if(c.getCardValue().getFace() == "A"){
 				aces++;
 			}else{
@@ -43,8 +43,7 @@ Hand::Hand() {
 				sum += 1;
 			}
 		}
-		handValue = sum;
-		return handValue;
+		return sum;
 	}
  }
  const std::vector<Card>& Hand::getCards() const{
