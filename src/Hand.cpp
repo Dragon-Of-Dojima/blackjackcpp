@@ -53,12 +53,12 @@ Hand::Hand() {
  bool Hand::isEmpty() const{
 	return (cardlist.size() == 0);
  }
- int main(int argc, char* argv[]){
-	srand(time(0));
-	Hand* f = new Hand();
-	f->deal(Card());
-	f->deal(Card());
-	std::cout << "f's hand is " << f->getHand() << std::endl;
-	std::cout << "f's score is " << f->getScore() << std::endl;
-	delete f;
- }
+//  int main(int argc, char* argv[]){
+// 	srand(time(0));
+// 	Hand* f = new Hand();
+// 	f->deal(Card());
+// 	f->deal(Card());
+// 	std::cout << "f's hand is " << f->getHand() << std::endl;
+// 	std::cout << "f's score is " << f->getScore() << std::endl;
+// 	delete f;
+//  }
