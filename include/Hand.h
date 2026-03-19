@@ -13,4 +13,5 @@ class Hand{
 		void deal(const Card& c);
 		int getScore();
 		bool isEmpty() const;
+		const std::vector<Card>& getCards() const;
 };
