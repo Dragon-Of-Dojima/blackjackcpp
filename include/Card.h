@@ -8,6 +8,7 @@ class Card{
 	Suit suit;
 	public:
 		Card();
+		Card(const std::string& face, Suit s);
 		static Suit determineSuit();
 		static std::string determineFace();
 		std::string toString() const;
