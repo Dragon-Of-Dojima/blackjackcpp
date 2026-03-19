@@ -97,7 +97,7 @@ int main(int argc, char* argv[]){
 			cout << "YOUR HAND: " << playerhand->getHand() << " and SCORE: " << playerhand->getScore() << endl;
 			cout << "YOU WIN!" << endl;
 		}
-		delete playerhand;
-		delete dealerhand;
 	}
+	delete playerhand;
+	delete dealerhand;
 }
