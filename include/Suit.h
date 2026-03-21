@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-
 enum Suit{
 	CLUBS,
 	DIAMONDS,
