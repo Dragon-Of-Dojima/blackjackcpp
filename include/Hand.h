@@ -1,17 +1,19 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <utility>
 #include "Card.h"
-//class Card; forward declaration (class Card;) trick we used in Card.h for Hand& doesn't work here because std::vector<Card> needs the full class definition to know how big a Card is. Forward declarations only work when you're using references or pointers to a type.
 class Hand{
 	std::vector<Card> cardlist;
 	int handValue;
+	std::pair<int, bool> computeScore() const;
 	public:
 		Hand();
-		std::string getHand() const;
+		std::string getHand(bool hideHoleCard = false) const;
 		int getSize() const;
 		void deal(const Card& c);
 		int getScore() const;
+		bool isSoft() const;
 		bool isEmpty() const;
 		const std::vector<Card>& getCards() const;
 };

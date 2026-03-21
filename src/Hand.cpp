@@ -6,11 +6,15 @@ Hand::Hand() {
 	this->handValue = Hand::getScore();
  }
 
- std::string Hand::getHand() const{
+ std::string Hand::getHand(bool hideHoleCard) const{
 	std::string tempString = "[";
 	for(int i = 0; i < (int)cardlist.size(); i++){
 		if (i > 0) tempString += ", ";
-		tempString += cardlist.at(i).toString();
+		if(hideHoleCard == true && i == 0){
+			tempString += "hidden";
+		}else{
+			tempString += cardlist.at(i).toString();
+		}
 	}
 	tempString += "]";
 	return tempString;
@@ -22,29 +26,25 @@ Hand::Hand() {
  void Hand::deal(const Card& c){
 	cardlist.push_back(c);
  }
- int Hand::getScore() const{
-	if(isEmpty()){
-		return 0;
-	}else{
-		int sum = 0;
-		int aces = 0;
-		for(const Card& c : cardlist){
-			if(c.getCardValue().getFace() == "A"){
-				aces++;
-			}else{
-				sum += c.getCardValue().getNumeric();
-			}
-		}
-		while(aces > 0){
-			aces--;
-			if(sum <= 10){
-				sum += 11;
-			}else{
-				sum += 1;
-			}
-		}
-		return sum;
+ std::pair<int, bool> Hand::computeScore() const{
+	if(isEmpty()) return {0, false};
+	int sum = 0;
+	int aces = 0;
+	for (const Card& c : cardlist) {
+		sum += c.getCardValue().getNumeric();
+		if (c.getCardValue().getFace() == "A") aces++;
 	}
+	while (sum > 21 && aces > 0) {
+		sum -= 10;
+		aces--;
+	}
+	return {sum, aces > 0};
+ }
+ int Hand::getScore() const{
+	return computeScore().first;
+ }
+ bool Hand::isSoft() const{
+	return computeScore().second;
  }
  const std::vector<Card>& Hand::getCards() const{
 	return cardlist;
@@ -52,12 +52,3 @@ Hand::Hand() {
  bool Hand::isEmpty() const{
 	return (cardlist.size() == 0);
  }
-//  int main(int argc, char* argv[]){
-// 	srand(time(0));
-// 	Hand* f = new Hand();
-// 	f->deal(Card());
-// 	f->deal(Card());
-// 	std::cout << "f's hand is " << f->getHand() << std::endl;
-// 	std::cout << "f's score is " << f->getScore() << std::endl;
-// 	delete f;
-//  }
