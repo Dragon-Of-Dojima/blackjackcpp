@@ -8,3 +8,6 @@ std::string Card::toString() const{
 CardValue Card::getCardValue() const{
 	return value;
 }
+Suit Card::getSuit() const{
+	return suit;
+}

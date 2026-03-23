@@ -12,3 +12,14 @@ add_executable(blackjack
 )
 
 target_include_directories(blackjack PRIVATE include)
+
+add_executable(blackjack-server
+    src/server.cpp
+    src/Game.cpp
+    src/Card.cpp
+    src/CardValue.cpp
+    src/Hand.cpp
+    src/Deck.cpp
+)
+
+target_include_directories(blackjack-server PRIVATE include lib)
