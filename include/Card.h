@@ -9,4 +9,5 @@ class Card{
 		Card(const std::string& face, Suit s);
 		std::string toString() const;
 		CardValue getCardValue() const;
+		Suit getSuit() const;
 };
