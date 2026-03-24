@@ -1,0 +1,136 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background: #1a1a2e;
+	color: #fff;
+	font-family: 'Georgia', serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+}
+
+#table {
+	background: #1b6b3a;
+	border-radius: 20px;
+	padding: 40px;
+	width: 700px;
+	min-height: 500px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 80px rgba(0,0,0,0.2);
+	border: 6px solid #2a4a32;
+}
+
+h2 {
+	font-size: 1.1rem;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	color: rgba(255,255,255,0.7);
+}
+
+.card-row {
+	display: flex;
+	gap: 10px;
+	min-height: 120px;
+	justify-content: center;
+	align-items: center;
+}
+
+.card {
+	width: 80px;
+	height: 120px;
+	background-image: url('cards/cards.svg');
+	background-size: 1136px 515px;
+	background-repeat: no-repeat;
+	border-radius: 5px;
+	box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+}
+
+.card.facedown {
+	background-image: url('cards/facedown.svg');
+	background-size: 100% 100%;
+	background-position: 0 0;
+}
+
+.score {
+	font-size: 1.3rem;
+	font-weight: bold;
+	min-height: 1.5em;
+	text-align: center;
+}
+
+.score .soft {
+	color: rgba(255,255,255,0.5);
+	font-size: 0.9rem;
+}
+
+#message {
+	font-size: 1.6rem;
+	font-weight: bold;
+	min-height: 2em;
+	display: flex;
+	align-items: center;
+	text-align: center;
+}
+
+#message.win { color: #4ade80; }
+#message.lose { color: #f87171; }
+#message.push { color: #facc15; }
+#message.blackjack { color: #fbbf24; text-shadow: 0 0 20px rgba(251,191,36,0.5); }
+
+#controls {
+	display: flex;
+	gap: 15px;
+	margin-top: 10px;
+}
+
+button {
+	padding: 12px 30px;
+	font-size: 1rem;
+	font-family: 'Georgia', serif;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	transition: transform 0.1s, opacity 0.2s;
+}
+
+button:active {
+	transform: scale(0.95);
+}
+
+button:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+#btn-deal {
+	background: #2563eb;
+	color: #fff;
+}
+
+#btn-hit {
+	background: #16a34a;
+	color: #fff;
+}
+
+#btn-stay {
+	background: #dc2626;
+	color: #fff;
+}
+
+#dealer-area, #player-area {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+}
