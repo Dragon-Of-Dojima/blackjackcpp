@@ -25,7 +25,6 @@ body {
 	flex-direction: column;
 	align-items: center;
 	gap: 20px;
-	box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 80px rgba(0,0,0,0.2);
 	border: 6px solid #2a4a32;
 }
 
@@ -38,10 +37,13 @@ h2 {
 
 .card-row {
 	display: flex;
-	gap: 10px;
 	min-height: 120px;
 	justify-content: center;
 	align-items: center;
+}
+
+.card-row .card + .card {
+	margin-left: -30px;
 }
 
 .card {
@@ -134,4 +136,20 @@ button:disabled {
 	flex-direction: column;
 	align-items: center;
 	gap: 8px;
+}
+@media only screen and (max-width:750px){
+	#table{
+		width:100%;
+	}
+	body{
+		width:auto;
+	}
+	#controls{
+		gap:10px;
+	}
+}
+@media only screen and (max-width:400px){
+	button {
+		padding: 8px 24px;
+	}
 }
