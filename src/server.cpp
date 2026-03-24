@@ -2,8 +2,38 @@
 #include "json.hpp"
 #include "Game.h"
 #include <iostream>
+#include <map>
+#include <mutex>
+#include <random>
 
 using json = nlohmann::json;
+
+std::map<std::string, Game> sessions;
+std::mutex mtx;
+
+std::string generateSessionId() {
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	static std::uniform_int_distribution<> dist(0, 15);
+	const char* hex = "0123456789abcdef";
+	std::string id;
+	for (int i = 0; i < 32; i++) {
+		id += hex[dist(gen)];
+	}
+	return id;
+}
+
+std::pair<std::string, Game&> getGame(const httplib::Request& req) {
+	std::string sid;
+	if (req.has_param("sid")) {
+		sid = req.get_param_value("sid");
+	}
+	if (sid.empty() || sessions.find(sid) == sessions.end()) {
+		sid = generateSessionId();
+		sessions[sid] = Game();
+	}
+	return {sid, sessions[sid]};
+}
 
 json handToJson(const Hand& hand, bool hideHoleCard = false){
 	json cards = json::array();
@@ -21,9 +51,10 @@ json handToJson(const Hand& hand, bool hideHoleCard = false){
 	return cards;
 }
 
-json gameStateToJson(const Game& game){
+json gameStateToJson(const Game& game, const std::string& sid){
 	bool hideDealer = (game.getStatus() == PLAYER_TURN);
 	json state = {
+		{"sid", sid},
 		{"status", game.statusToString()},
 		{"player", {
 			{"cards", handToJson(game.getPlayerHand())},
@@ -44,26 +75,33 @@ json gameStateToJson(const Game& game){
 }
 
 int main(){
-	Game game;
 	httplib::Server svr;
 
-	svr.Post("/api/deal", [&game](const httplib::Request&, httplib::Response& res){
+	svr.Post("/api/deal", [](const httplib::Request& req, httplib::Response& res){
+		std::lock_guard<std::mutex> lock(mtx);
+		auto [sid, game] = getGame(req);
 		game.deal();
-		res.set_content(gameStateToJson(game).dump(), "application/json");
+		res.set_content(gameStateToJson(game, sid).dump(), "application/json");
 	});
 
-	svr.Post("/api/hit", [&game](const httplib::Request&, httplib::Response& res){
+	svr.Post("/api/hit", [](const httplib::Request& req, httplib::Response& res){
+		std::lock_guard<std::mutex> lock(mtx);
+		auto [sid, game] = getGame(req);
 		game.hit();
-		res.set_content(gameStateToJson(game).dump(), "application/json");
+		res.set_content(gameStateToJson(game, sid).dump(), "application/json");
 	});
 
-	svr.Post("/api/stay", [&game](const httplib::Request&, httplib::Response& res){
+	svr.Post("/api/stay", [](const httplib::Request& req, httplib::Response& res){
+		std::lock_guard<std::mutex> lock(mtx);
+		auto [sid, game] = getGame(req);
 		game.stay();
-		res.set_content(gameStateToJson(game).dump(), "application/json");
+		res.set_content(gameStateToJson(game, sid).dump(), "application/json");
 	});
 
-	svr.Get("/api/state", [&game](const httplib::Request&, httplib::Response& res){
-		res.set_content(gameStateToJson(game).dump(), "application/json");
+	svr.Get("/api/state", [](const httplib::Request& req, httplib::Response& res){
+		std::lock_guard<std::mutex> lock(mtx);
+		auto [sid, game] = getGame(req);
+		res.set_content(gameStateToJson(game, sid).dump(), "application/json");
 	});
 
 	auto ret = svr.set_mount_point("/", "./public");
