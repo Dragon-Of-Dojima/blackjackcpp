@@ -32,8 +32,12 @@ json gameStateToJson(const Game& game){
 		}},
 		{"dealer", {
 			{"cards", handToJson(game.getDealerHand(), hideDealer)},
-			{"score", hideDealer ? 0 : game.getDealerHand().getScore()},
-			{"soft", hideDealer ? false : game.getDealerHand().isSoft()}
+			{"score", hideDealer
+				? game.getDealerHand().getCards()[1].getCardValue().getNumeric()
+				: game.getDealerHand().getScore()},
+			{"soft", hideDealer
+				? (game.getDealerHand().getCards()[1].getCardValue().getNumeric() == 11)
+				: game.getDealerHand().isSoft()}
 		}}
 	};
 	return state;

@@ -20,6 +20,8 @@ int main(int argc, char* argv[]){
 	while(playerStillIn && (!isBusted(*playerhand))){
 		if(playerhand->getScore() != 21){
 			cout << "DEALER HAND: " << dealerhand->getHand(true) << endl;
+			int visibleVal = dealerhand->getCards()[1].getCardValue().getNumeric();
+			cout << "DEALER SHOWING: " << visibleVal << endl;
 			cout << "YOUR HAND: " << playerhand->getHand() << endl;
 			if(playerhand->isSoft()){
 				cout << "YOUR SCORE: " << (playerhand->getScore() - 10) << " or " << playerhand->getScore() << endl;
