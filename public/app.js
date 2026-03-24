@@ -1,4 +1,5 @@
 const API = '.';
+let sessionId = '';
 
 const SCALE = 80 / 359;
 const ORIGIN_X = 30.5 * SCALE;
@@ -91,20 +92,26 @@ function updateUI(state) {
 	}
 }
 
+function apiUrl(path) {
+	const params = sessionId ? `?sid=${sessionId}` : '';
+	return API + path + params;
+}
+
 async function deal() {
-	const res = await fetch(API + '/api/deal', { method: 'POST' });
+	const res = await fetch(apiUrl('/api/deal'), { method: 'POST' });
 	const state = await res.json();
+	sessionId = state.sid;
 	updateUI(state);
 }
 
 async function hit() {
-	const res = await fetch(API + '/api/hit', { method: 'POST' });
+	const res = await fetch(apiUrl('/api/hit'), { method: 'POST' });
 	const state = await res.json();
 	updateUI(state);
 }
 
 async function stay() {
-	const res = await fetch(API + '/api/stay', { method: 'POST' });
+	const res = await fetch(apiUrl('/api/stay'), { method: 'POST' });
 	const state = await res.json();
 	updateUI(state);
 }
