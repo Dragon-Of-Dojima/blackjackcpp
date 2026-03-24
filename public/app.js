@@ -1,4 +1,4 @@
-const API = '';
+const API = '.';
 
 const SCALE = 80 / 359;
 const ORIGIN_X = 30.5 * SCALE;
