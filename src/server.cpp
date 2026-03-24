@@ -62,6 +62,13 @@ int main(){
 		res.set_content(gameStateToJson(game).dump(), "application/json");
 	});
 
+	auto ret = svr.set_mount_point("/", "./public");
+	if (!ret) {
+		std::cerr << "Failed to mount ./public  — directory not found from cwd" << std::endl;
+	} else {
+		std::cout << "Serving static files from ./public" << std::endl;
+	}
+
 	std::cout << "Blackjack server running on port 8081" << std::endl;
 	svr.listen("0.0.0.0", 8081);
 }
