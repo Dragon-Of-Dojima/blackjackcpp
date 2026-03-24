@@ -5,9 +5,9 @@
 }
 
 body {
-	background: #1a1a2e;
+	background: #00000000;
 	color: #fff;
-	font-family: 'Georgia', serif;
+	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -94,7 +94,7 @@ h2 {
 button {
 	padding: 12px 30px;
 	font-size: 1rem;
-	font-family: 'Georgia', serif;
+	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 	border: none;
 	border-radius: 8px;
 	cursor: pointer;
